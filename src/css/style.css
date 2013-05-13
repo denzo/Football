@@ -1,0 +1,251 @@
+body
+{
+	font-size: 11px;
+	background-color: #333333;
+}
+
+
+#container
+{
+	background: #ebebcf;
+	padding: 50px;	
+}
+
+g.chart
+{
+	fill: red;	
+}
+
+#dimensionContextMenu
+{
+	
+}
+
+#dimensionContextMenu.popover
+{
+	max-width: 800px;
+}
+
+
+.show
+{
+	display: block;
+}
+
+.hide
+{
+	display: none;
+}
+
+text.timePeriodBreakdown
+{
+	fill: #CCCCCC;
+	font-size: 9px;
+	font-family: Tahoma;
+	text-anchor: end;
+	margin-right: 25px;
+}
+
+text.title
+{
+	font-size: 14px;
+	font-weight: bold;
+	font-family: Arial;
+	
+}
+
+.split-menu
+{
+  width: 100%;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 0;
+  margin: 2px 0 0;
+  list-style: none;
+  background-color: #ffffff;
+}
+
+.split-menu > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 20px;
+  color: #333333;
+  white-space: nowrap;
+}
+
+.split-menu > li > a:hover,
+.split-menu > li > a:focus,
+.split-submenu:hover > a,
+.split-submenu:focus > a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0081c2;
+  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+}
+
+.split-menu > .active > a,
+.split-menu > .active > a:hover,
+.split-menu > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0081c2;
+  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+  background-repeat: repeat-x;
+  outline: 0;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
+}
+
+.split-menu > .disabled > a,
+.split-menu > .disabled > a:hover,
+.split-menu > .disabled > a:focus {
+  color: #999999;
+}
+
+.split-menu > .disabled > a:hover,
+.split-menu > .disabled > a:focus {
+  text-decoration: none;
+  cursor: default;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+
+
+
+
+text.title:hover
+{
+	fill: #0088cc;
+	cursor: pointer;
+}
+
+tspan.titleTotal
+{
+	font-size: 12px;
+	font-weight: normal;
+	font-family: Tahoma;
+	fill: #999999;
+}
+rect.bar
+{
+	/*
+	stroke-width: 1;
+	stroke: red;
+	*/	
+}
+
+text.timePeriodTotal
+{
+	font-size: 11px;
+	font-family: Arial;
+}
+
+.on
+{
+	background: #000000;	
+}
+
+.axis path,
+.axis line {
+    
+}
+
+.axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+    fill: #666666;
+}
+
+.axis .tick line
+{
+    stroke: #666666;
+	stroke-width: 1px;
+	shape-rendering: crispEdges;
+}
+
+
+
+line.dashed-bar
+{
+	stroke: #0000ff;
+	/* stroke-dasharray: 1px, 1px; */
+}
+
+line.month
+{
+	stroke: #EEEEEE;
+	stroke-width: 1px;
+	shape-rendering: crispEdges;
+}
+
+text.month
+{
+	font-family: Arial;
+    font-size: 11px;
+}
+
+table thead
+{
+	border-bottom: 1px solid grey;
+}
+
+.off
+{
+	background: #d3d3ba;	
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	padding: 0;
+}
+
+.day
+{
+	background: #b0b09b;
+	width: 4px;
+}
+
+.campaign
+{
+	height: 1px;
+	line-height: 0;
+	margin: 0 0 1px 0;
+	padding: 0;
+	font-size: 1px;
+	background: #818172;
+}
+
+.channel
+{
+}
+
+.channel td
+{
+	font-size: 1px;
+	padding: 0 1px 0 0;
+}
+
+.channel li
+{
+	list-style-type: none;
+	margin-right: 1px;
+	float: left;
+	width: 5px;
+	height: 24px;
+}

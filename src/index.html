@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- built: @timestamp@ version: @version@ author: @user.name@ -->
+<html lang="en">
+<head>
+    <script src="lib/jquery-1.9.1.min.js"></script>
+    <script src="lib/handlebars-1.0.0-rc.3.js"></script>
+    <script src="lib/ember-1.0.0-rc.1.js"></script>
+    <script src="lib/date.js"></script>
+    <script src="lib/chosen.jquery.min.js"></script>
+    <script src="lib/d3.v3.min.js"></script>
+    <script src="lib/crossfilter.min.js"></script>
+    <script src="lib/jquery-ui-1.10.2.custom.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/chosen.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui-1.10.2.custom.min.css" />
+</head>
+<body>
+<script type="text/javascript">
+
+$(function()
+{
+	$.get('template/application.handlebars', function(data)
+	{
+        $(data).filter('script[type="text/x-handlebars"]').each(function(index)
+        {
+            Ember.TEMPLATES[$(this).attr('data-template-name')] = Ember.Handlebars.compile($(this).html());
+        });
+        
+        App.advanceReadiness();
+	});
+});
+
+</script>
+<script src="application-@version@.js"></script>
+</body>
+</html>

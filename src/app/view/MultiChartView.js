@@ -13,8 +13,8 @@ App.MultiChartView = Em.View.extend({
 	chartHeights: [],
 	
 	config: {
-		margin: {top: 100, right: 50, bottom: 40, left: 50},
-		size: {radius: 2},
+		margin: {top: 50, right: 50, bottom: 40, left: 50},
+		size: {radius: 1},
 		gap: {horizontal: 5, vertical: 1}
 	},
 	
@@ -36,7 +36,7 @@ App.MultiChartView = Em.View.extend({
 		data.forEach(function(team)
 		{
 			result.push(
-				d3.max(team.gf.getEach('total'))
+				d3.max(team.matches.getEach('total'))
 			);
 		});
 		
@@ -52,7 +52,7 @@ App.MultiChartView = Em.View.extend({
 		var that = this,
 			config = this.get('config'),
 			svg = d3.select('#' + this.$().attr('id')),
-			chartWidth = data[0].gf.length * (config.size.radius * 2 + config.gap.horizontal) + config.size.radius;
+			chartWidth = data[0].matches.length * (config.size.radius * 2 + config.gap.horizontal) + config.size.radius;
 			
 		
 		var maxValues = this.createMaxValues(data),
@@ -87,7 +87,7 @@ App.MultiChartView = Em.View.extend({
 			
 		title
 			.attr('x', chartWidth + 15)
-			.attr('y', function(d,i){ return d3.sum(chartHeights.slice(0, i + 1)); })
+			.attr('y', function(d,i){ return d3.sum(chartHeights.slice(0, i)); })
 			.text(function(d){ return d.team; });
 			
 		title
@@ -95,7 +95,99 @@ App.MultiChartView = Em.View.extend({
 			.remove();
 			
 			
-		/*
+			
+			
+		var match = chart.selectAll('g.match').data(function(d)
+		{
+			return d.matches;
+		});
+		
+		match
+			.enter()
+			.append('g')
+			.attr('class', 'match');
+		
+		match
+			.attr('transform', function(d, i){ 
+				return SVG.translate(i * (config.gap.horizontal + config.size.radius * 2) + config.size.radius, 0);
+			})
+			.attr('class', function(d){ return d.outcome; });
+			
+		match
+			.exit()
+			.remove();
+			
+			
+			
+			
+			
+		
+		
+		
+		var gf = match.selectAll('circle.goalFor').data(function(d){
+			return d.gf;
+		});
+		
+		gf
+			.enter()
+			.append('circle')
+			.attr('class', 'goalFor');
+			
+		gf
+			.attr('cy', function(d, i)
+			{
+				return -i * (config.size.radius * 2 + config.gap.vertical) - 
+					(config.size.radius * 2 + config.gap.vertical) - 
+					config.gap.vertical;
+			})
+			.attr('r', config.size.radius);
+			
+		gf
+			.exit()
+			.remove();
+			
+			
+		
+		var ga = match.selectAll('circle.goalAgainst').data(function(d){
+			return d.ga;
+		});
+		
+		ga
+			.enter()
+			.append('circle')
+			.attr('class', 'goalAgainst');
+			
+		ga
+			.attr('cy', function(d, i)
+			{
+				return i * (config.size.radius * 2 + config.gap.vertical) + 
+					(config.size.radius * 2 + config.gap.vertical) + config.gap.vertical;
+			})
+			.attr('r', config.size.radius);
+			
+		ga
+			.exit()
+			.remove();
+			
+			
+		var nilAll = match.selectAll('circle.nillAll').data(function(d){
+			return d.total === 0 ? [true] : [];
+		});
+		
+		nilAll
+			.enter()
+			.append('circle')
+			.attr('class', 'nilAll')
+			.attr('r', config.size.radius);
+			
+		nilAll
+			.exit()
+			.remove();
+			
+	}
+	
+	
+	/*
 		var titleTotal = title.selectAll('tspan.titleTotal').data(function(d){return [d]; });
 		
 		titleTotal
@@ -116,44 +208,9 @@ App.MultiChartView = Em.View.extend({
 			.remove();
 		*/
 		
+		/*
 		
-		var goalsFor = chart.selectAll('g.goalsFor').data(function(d){
-			return d.gf;
-		});
-		
-		goalsFor
-			.enter()
-			.append('g')
-			.attr('class', 'goalsFor');
-		
-		goalsFor
-			.attr('transform', function(d, i){ 
-				return SVG.translate(i * (config.gap.horizontal + config.size.radius * 2) + config.size.radius, 0);
-			})
-			.attr('total', function(d){ return d.total; });
-			
-		goalsFor
-			.exit()
-			.remove();
-		
-		
-		
-		var bar = goalsFor.selectAll('circle').data(function(d){
-			return d.players;
-		});
-		
-		bar
-			.enter()
-			.append('circle');
-			
-		bar
-			.attr('cy', function(d, i, j, k)
-			{
-				return this.parentNode.parentNode.getAttribute('chart-height') - 
-					i * (config.size.radius * 2 + config.gap.vertical) - 
-					config.size.radius;
-			})
-			.attr('fill', function(d, i, j) { 
+		.attr('fill', function(d, i, j) { 
 				
 				var data = this.parentNode.parentNode.__data__;
 				
@@ -175,75 +232,7 @@ App.MultiChartView = Em.View.extend({
 					return '#292929'; // '#FFC000';
 				} 
 			})
-			.attr('r', config.size.radius);
 			
-		bar
-			.exit()
-			.remove();
-			
-			
-		var goalsAgainst = chart.selectAll('g.goalsAgainst').data(function(d){
-			return d.ga;
-		});
-		
-		goalsAgainst
-			.enter()
-			.append('g')
-			.attr('class', 'goalsAgainst');
-		
-		goalsAgainst
-			.attr('transform', function(d, i){ 
-				return SVG.translate(
-					i * (config.gap.horizontal + config.size.radius * 2) + config.size.radius, 
-					Number(this.parentNode.getAttribute('chart-height')) + config.gap.vertical * 2 + config.size.radius * 2);
-			})
-			.attr('total', function(d){ return d.total; });
-			
-		goalsAgainst
-			.exit()
-			.remove();
-		
-		
-		
-		var bar2 = goalsAgainst.selectAll('circle').data(function(d){
-			return d.players;
-		});
-		
-		bar2
-			.enter()
-			.append('circle');
-			
-		bar2
-			.attr('cy', function(d, i, j, k)
-			{
-				return i * (config.size.radius * 2 + config.gap.vertical) + config.size.radius;
-			})
-			.attr('fill', function(d, i, j) { 
-				var data = this.parentNode.parentNode.__data__;
-				
-				var index = j % data.gf.length;
-				
-				var gf = data.gf[index].total;
-				var ga = data.ga[index].total;
-				
-				if (gf > ga)
-				{
-					return '#77FF00';
-				}
-				else if (ga > gf)
-				{
-					return '#292929'; // '#FC2D50';
-				}
-				else if (ga === gf)
-				{
-					return '#292929';
-				} 
-			})
-			.attr('r', config.size.radius);
-			
-		bar2
-			.exit()
-			.remove();
-	}
+		*/
 
 });

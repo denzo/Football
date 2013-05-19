@@ -16,6 +16,21 @@ g.chart
 	fill: red;	
 }
 
+g.win
+{
+	fill: #77FF00;	
+}
+
+g.loss
+{
+	fill: #FC2D50;	
+}
+
+g.draw
+{
+	fill: #FFC000;	
+}
+
 #dimensionContextMenu
 {
 	

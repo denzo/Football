@@ -54,20 +54,34 @@ App.ApplicationRoute = Em.Route.extend({
 		var date = cf.dimension(function(d){ return d.date; });
 		var dateGroup = date.group().reduce(Reduce.add, Reduce.remove, Reduce.initial).all();
 		
-		var series = team.group().all().getEach('key').map(function(d)
+		var series = team.group().all().getEach('key').map(function(teamName)
 		{
-			team.filter(d);
-			var goalsFor = dateGroup.map(function(d){ return {date: d.key, total: d.value.total, players: d.value.players.concat()}; });
-			team.filterAll();
-			
-			opponent.filter(d);
-			var goalsAgainst = dateGroup.map(function(d){ return {date: d.key, total: d.value.total, players: d.value.players.concat()}; });
-			opponent.filterAll();
+			var matches = dateGroup.map(function(item)
+			{
+				date.filter(date);
+				
+				team.filter(teamName);
+				var goalsFor = item.value.players.concat();
+				team.filterAll();
+				
+				opponent.filter(teamName);
+				var goalsAgainst = item.value.players.concat();
+				opponent.filterAll();
+				
+				return {
+					date: item.key,
+					gf: goalsFor,
+					ga: goalsAgainst,
+					total: goalsFor.length + goalsAgainst.length,
+					outcome: goalsFor.length === goalsAgainst.length ? 
+						'draw' : goalsFor.length > goalsAgainst.length ? 'win' : 'loss'
+				};
+				
+			});
 			
 			return {
-				team: d,
-				gf: goalsFor,
-				ga: goalsAgainst
+				team: teamName,
+				matches: matches
 			};
 		});
 		

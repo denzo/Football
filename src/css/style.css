@@ -4,6 +4,11 @@ body
 	background-color: #333333;
 }
 
+svg
+{
+	margin: 50px 200px;	
+}
+
 
 #container
 {
@@ -24,11 +29,13 @@ g.win
 g.loss
 {
 	fill: #FC2D50;	
+	/*  fill: #292929;  */	
 }
 
 g.draw
 {
-	fill: #FFC000;	
+	 fill: #FFC000; 	
+	/* fill: #292929; */	
 }
 
 #dimensionContextMenu
@@ -66,7 +73,7 @@ text.title
 	font-size: 14px;
 	font-weight: bold;
 	font-family: Arial;
-	
+	fill: #242424;
 }
 
 .split-menu

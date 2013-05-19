@@ -13,9 +13,9 @@ App.MultiChartView = Em.View.extend({
 	chartHeights: [],
 	
 	config: {
-		margin: {top: 50, right: 50, bottom: 40, left: 50},
+		margin: {top: 75, right: 50, bottom: 40, left: 50},
 		size: {radius: 1},
-		gap: {horizontal: 5, vertical: 1}
+		gap: {horizontal: 12, vertical: 1}
 	},
 	
 	dataChangeHandler: function()
@@ -47,8 +47,7 @@ App.MultiChartView = Em.View.extend({
 	{
 		if (this.get('state') !== 'inDOM') return;
 		
-		
-		
+
 		var that = this,
 			config = this.get('config'),
 			svg = d3.select('#' + this.$().attr('id')),
@@ -60,7 +59,25 @@ App.MultiChartView = Em.View.extend({
 		
 		this.set('height', d3.sum(chartHeights));
 		
-		var chart = svg.selectAll('g.chart').data(data);
+		
+		var container = svg.selectAll('g.container').data(data);
+		
+		container
+			.enter()
+			.append('g')
+			.attr('class', 'container');
+			
+		container
+			.attr('transform', function(d, i){ return SVG.translate(0, d3.sum(chartHeights.slice(0, i))); })
+			.attr('title', function(d,i){ return d.team; });
+			
+		container
+			.exit()
+			.remove();
+		
+		
+		
+		var chart = container.selectAll('g.chart').data(function(d){ return [d]; });
 		
 		chart
 			.enter()
@@ -68,17 +85,17 @@ App.MultiChartView = Em.View.extend({
 			.attr('class', 'chart');
 			
 		chart
-			.attr('transform', function(d, i){ return SVG.translate(0, d3.sum(chartHeights.slice(0, i))); })
-			.attr('title', function(d,i){ return d.team; })
-			.attr('chart-height', function(d,i){ return chartHeights[i]; })
-			.attr('max-value', function(d,i){ return maxValues[i]; });
+			.attr('transform', function(d, i){ return SVG.translate(0, 
+				d.maxGoalsFor * (config.size.radius * 2 + config.gap.vertical)); })
+			.attr('chart-height', function(d,i,j){ return chartHeights[j]; })
+			.attr('max-value', function(d,i,j){ return maxValues[j]; });
 			
 		chart
 			.exit()
 			.remove();
 			
 		
-		var title = svg.selectAll('text.title').data(data);
+		var title = container.selectAll('text.title').data(function(d){ return [d]; });
 		
 		title
 			.enter()
@@ -86,8 +103,8 @@ App.MultiChartView = Em.View.extend({
 			.attr('class', 'title');
 			
 		title
-			.attr('x', chartWidth + 15)
-			.attr('y', function(d,i){ return d3.sum(chartHeights.slice(0, i)); })
+			.attr('x', chartWidth + 10)
+			.attr('y', function(d){ return d.maxGoalsFor * (config.size.radius * 2 + config.gap.vertical) + 5; })
 			.text(function(d){ return d.team; });
 			
 		title

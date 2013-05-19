@@ -15,7 +15,7 @@
 			
 			var matches = Fake.matches(); 
 			
-			while (++i < 400)
+			while (++i < 300)
 			{
 				team = Random.fromArray(teams);
 				opponent = Random.fromArray(teams.without(team));

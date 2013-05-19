@@ -72,6 +72,8 @@ App.ApplicationRoute = Em.Route.extend({
 					date: item.key,
 					gf: goalsFor,
 					ga: goalsAgainst,
+					totalFor: goalsFor.length,
+					totalAgainst: goalsAgainst.length,
 					total: goalsFor.length + goalsAgainst.length,
 					outcome: goalsFor.length === goalsAgainst.length ? 
 						'draw' : goalsFor.length > goalsAgainst.length ? 'win' : 'loss'
@@ -81,7 +83,9 @@ App.ApplicationRoute = Em.Route.extend({
 			
 			return {
 				team: teamName,
-				matches: matches
+				matches: matches,
+				maxGoalsFor: d3.max(matches.getEach('totalFor')),
+				maxGoalsAgainst: d3.max(matches.getEach('totalAgainst'))
 			};
 		});
 		

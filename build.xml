@@ -116,7 +116,7 @@
     	</copy>
     	
     	<!-- Copy data folder to the current build folder -->
-    	<copy todir="${dir.build.current}/data">
+    	<copy todir="${dir.build.current}/data" failonerror="false">
     		<fileset dir="${dir.data}"/>
     	</copy>
     	

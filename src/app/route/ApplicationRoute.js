@@ -1,44 +1,12 @@
 App.ApplicationRoute = Em.Route.extend({
 
-	activate: function()
-	{
-		
-	},
-	
-	setupController: function()
-	{
+	setupController: function() {
 		var that = this;
-	
-		// use generated fake data if specified in the URL
-		if (window.location.href.indexOf('fake') > -1)
-		{
 			that.initApp(Fake.get(this.get('totalRecords')));
-		}
-		else
-		{
-			d3.csv('data/activity.csv', function(result)
-			{
-				var maxDate = null;
-			
-				result.forEach(function(item)
-				{
-					item.leads = +item.leads;
-					item.campaign = item.campaign === '?' ? 'No campaign id' : item.campaign;
-					item.selection_date = Date.parseExact(item.selection_date, 'd/MM/yyyy');
-					
-					if (maxDate === null || item.selection_date.isAfter(maxDate))
-						maxDate = item.selection_date;
-				});
-				
-				that.set('controller.maxDate', maxDate.getDay() !== 0 ? maxDate.moveToDayOfWeek(0) : maxDate);
-				
-				that.initApp(result);
-			});
-		}
+	
 	},
 	
-	initApp: function(data)
-	{
+	initApp: function(data) {
 		var controller = this.controller;
 		
 		controller.set('content', data);
@@ -91,17 +59,7 @@ App.ApplicationRoute = Em.Route.extend({
 		
 		this.set('controller.breakdown.content', series);
 		
-	},
-	
-	
-	
-	
-	
-	
-	events: {
-	
-		
-		
 	}
-
+	
+	
 });
